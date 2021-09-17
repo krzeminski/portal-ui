@@ -1,0 +1,26 @@
+<div class="container my-5 d-flex align-content-center justify-content-center">
+  <div class="w-50 my-5 p-5">
+    <form>
+      <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Email</label>
+        <input
+          type="email"
+          class="form-control"
+          id="exampleInputEmail1"
+          aria-describedby="emailHelp"
+          required="true"
+        />
+      </div>
+      <div class="mb-3 form-check">
+        <input type="checkbox" class="form-check-input" id="exampleCheck1" />
+        <label class="form-check-label" for="exampleCheck1">Captcha</label>
+      </div>
+      <button type="submit" class="btn btn-primary w-25">Wyślij</button>
+    </form>
+    <div class="py-3">
+      <a href="/reset" routerLink="/reset" class="text-danger">Zapomniałem hasła</a>
+      <br />
+      <a href="/register" routerLink="/register" class="text-secondary">Zarejestruj</a>
+    </div>
+  </div>
+</div>
