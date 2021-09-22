@@ -1,15 +1,14 @@
-import { Awards } from './awards.interface';
-import { Roles } from './roles.interface';
+import { Role } from '../enums/role.enum';
 
 export interface User {
-  id: string;
-  name: string;
-  surname: string;
+  id?: string;
+  firstName: string;
+  lastName: string;
   username: string;
   email: string;
   password?: string;
-  picture: string;
-  roles: Roles[];
-  awards: Awards[];
-  notes?: [];
+  profileImageUrl?: string;
+  role?: Role;
+  active?: boolean;
+  locked?: boolean;
 }

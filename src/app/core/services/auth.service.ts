@@ -14,6 +14,6 @@ export class AuthService {
 }
 
 interface Credentials {
-  username: string,
+  userName: string,
   password: string
 }

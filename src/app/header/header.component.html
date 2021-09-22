@@ -20,23 +20,15 @@
         <ng-container *ngIf="true">
           <a class="nav-link" routerLink="/notes">Notatki</a>
           <a class="nav-link" routerLink="/admin">Użytkownicy</a>
+
           <a
-            class="nav-link disabled"
-            routerLink="/reset"
-            tabindex="-1"
-            aria-disabled="true"
-            >Reset hasła</a
-          >
-          <a
-            class="btn btn-outline-primary mx-3"
+            class="nav-link"
             tabindex="-1"
             aria-disabled="true"
             routerLink="/profile"
             >Profil</a
           >
-          <a class="btn btn-outline-danger" tabindex="-1" aria-disabled="true"
-            >Wyloguj</a
-          >
+
         </ng-container>
         <ng-container *ngIf="true">
           <a
@@ -45,7 +37,7 @@
             >Zaloguj się</a
           >
           <a class="nav-link mx-1 px-2 btn btn-primary" routerLink="/register"
-            >Zarejestruj
+            >Zarejestruj się
           </a>
         </ng-container>
       </div>

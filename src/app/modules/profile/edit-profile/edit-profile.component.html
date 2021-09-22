@@ -1,13 +1,94 @@
-<div class="w-100 d-flex justify-content-end p-3">
-  <a class="btn btn-outline-success mx-3" tabindex="-1" routerLink="/reset">Zatwierdź</a>
-  <a class="btn btn-danger " tabindex="-1" routerLink="/profile">Wróć</a>
-</div>
 <div class="container my-5">
-  <div class="card w-75 mx-auto p-5">
-    <form class="p-5">
-      <div class="input-group mb-3">
-        <label class="input-group-text" for="inputGroupFile02">Wybierz zdjęcie profilowe</label>
-        <input type="file" class="form-control" id="inputGroupFile02">
+  <div class="card w-50 mx-auto p-4">
+    <form class="p-5" [formGroup]="userForm" (ngSubmit)="onSubmit()">
+      <div class="mb-3">
+        <div class="form-group">
+          <h6>Zdjęcie profilowe:</h6>
+          <input
+            type="file"
+            id="file"
+            class="form-control"
+            (change)="handleFileInput($event)"
+          />
+        </div>
+      </div>
+      <div class="mb-3">
+        <h6>Nazwa użytkownika:</h6>
+        <input
+          formControlName="username"
+          type="text"
+          class="form-control"
+          placeholder="{{ user.username }}"
+          aria-label="Nazwa użytkownika"
+        />
+      </div>
+      <div class="mb-3">
+        <h6>Imię:</h6>
+        <input
+          formControlName="firstName"
+          type="text"
+          class="form-control"
+          placeholder="{{ user.firstName }}"
+          aria-label="Imię"
+        />
+      </div>
+      <div class="mb-3">
+        <h6>Nazwisko:</h6>
+        <input
+          formControlName="lastName"
+          type="text"
+          class="form-control"
+          placeholder="{{ user.lastName }}"
+          aria-label="Nazwisko"
+        />
+      </div>
+      <div class="mb-3">
+        <h6>Email:</h6>
+        <input
+          formControlName="email"
+          type="email"
+          class="form-control"
+          id="exampleInputEmail1"
+          required
+          placeholder="{{ user.email }}"
+          aria-label="Email"
+        />
+      </div>
+      <div class="mb-3">
+        <h6>Stare Hasło:</h6>
+        <input
+          formControlName="oldPassword"
+          type="password"
+          class="form-control"
+          placeholder="Wpisz stare hasło"
+          aria-label="Stare hasło"
+        />
+      </div>
+      <div class="mb-3">
+        <h6>Nowe hasło:</h6>
+        <input
+          formControlName="password"
+          type="password"
+          class="form-control"
+          placeholder="Wpisz nowe hasło"
+          aria-label="Nowe hasło"
+        />
+      </div>
+      <div class="mb-3">
+        <h6>Potwierdź hasło:</h6>
+        <input
+          formControlName="repeatedPassword"
+          type="password"
+          class="form-control"
+          placeholder="Potwierdź hasło"
+          aria-label="Potwierdź hasło"
+        />
+      </div>
+      <div class="d-flex justify-content-between mt-5">
+        <button class="btn btn-success" tabindex="-1" type="submit">
+          Zatwierdź
+        </button>
+        <a class="btn btn-danger" tabindex="-1" routerLink="/profile"> Wróć </a>
       </div>
     </form>
   </div>

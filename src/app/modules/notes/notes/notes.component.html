@@ -1,1 +1,44 @@
-<p>notes works!</p>
+<div class="container-fluid">
+  <div class="d-flex justify-content-end my-4">
+    <app-modal>
+      <button button class="btn btn-success">Dodaj notatkę</button>
+      <app-note modal></app-note>
+    </app-modal>
+  </div>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Data</th>
+        <th scope="col">Tytuł</th>
+        <th scope="col">Tekst</th>
+        <th scope="col">Wartość</th>
+        <th scope="col">Autor</th>
+        <th scope="col">Opcje</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let note of notes">
+        <tr>
+          <th scope="row">{{ note.id }}</th>
+          <td>{{ note.creationDate }}</td>
+          <td>{{ note.title }}</td>
+          <td>{{ note.text }}</td>
+          <td>{{ note.value }}</td>
+          <td>{{ note.email }}</td>
+          <td>
+            <div class="d-flex">
+              <app-modal>
+                <button button class="btn btn-outline-secondary p-1 m-1">
+                  Edytuj
+                </button>
+                <app-note modal [noteId]="note.id"></app-note>
+              </app-modal>
+              <button class="btn btn-danger p-1 m-1">Usuń</button>
+            </div>
+          </td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+</div>

@@ -1,6 +1,6 @@
 <div class="container my-5 d-flex align-content-center justify-content-center">
-  <div class="w-50 my-5 p-5">
-    <form>
+  <div class="w-50 my-5 p-5 card">
+    <form [formGroup]="credentialsForm" (ngSubmit)="onSubmit()">
       <div class="mb-3">
         <label for="exampleInputEmail1" class="form-label">Email</label>
         <input
@@ -8,7 +8,8 @@
           class="form-control"
           id="exampleInputEmail1"
           aria-describedby="emailHelp"
-          required="true"
+          required
+          formControlName="userName"
         />
       </div>
       <div class="mb-3">
@@ -17,19 +18,24 @@
           type="password"
           class="form-control"
           id="exampleInputPassword1"
-          required="true"
+          required
+          formControlName="password"
         />
       </div>
       <div class="mb-3 form-check">
         <input type="checkbox" class="form-check-input" id="exampleCheck1" />
         <label class="form-check-label" for="exampleCheck1">Captcha</label>
       </div>
-      <button type="submit" class="btn btn-primary w-25">Zaloguj</button>
+      <div class="d-flex justify-content-between">
+        <div class="py-3">
+          <a routerLink="/reset" class="text-danger">Zapomniałem hasła</a>
+          <br />
+          <a routerLink="/register" class="text-secondary">Zarejestruj się</a>
+        </div>
+        <div class="d-flex align-items-center">
+          <button class="btn btn-primary" type="submit">Zaloguj się</button>
+        </div>
+      </div>
     </form>
-    <div class="py-3">
-      <a href="/reset" class="text-danger">Zapomniałem hasła</a>
-      <br />
-      <a href="/register" class="text-secondary">Zarejestruj</a>
-    </div>
   </div>
 </div>

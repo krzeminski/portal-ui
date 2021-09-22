@@ -1,6 +1,6 @@
 export interface Awards {
+  id?: number;
   name: string;
   type: string;
-  number: number;
   rank: number;
 }

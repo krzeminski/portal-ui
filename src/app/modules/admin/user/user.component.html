@@ -1,0 +1,89 @@
+<div class="">
+  <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+    <div class="mb-3">
+      <div class="form-group">
+        <h6>Zdjęcie profilowe:</h6>
+        <input
+          type="file"
+          id="file"
+          class="form-control"
+          (change)="handleFileInput($event)"
+        />
+      </div>
+    </div>
+    <div class="mb-3">
+      <h6>Nazwa użytkownika:</h6>
+      <input
+        formControlName="userName"
+        type="text"
+        class="form-control"
+        placeholder="{{ user.username }}"
+        aria-label="Nazwa użytkownika"
+      />
+    </div>
+    <div class="mb-3">
+      <h6>Imię:</h6>
+      <input
+        formControlName="name"
+        type="text"
+        class="form-control"
+        placeholder="{{ user.firstName }}"
+        aria-label="Imię"
+      />
+    </div>
+    <div class="mb-3">
+      <h6>Nazwisko:</h6>
+      <input
+        formControlName="surname"
+        type="text"
+        class="form-control"
+        placeholder="{{ user.lastName }}"
+        aria-label="Nazwisko"
+      />
+    </div>
+    <div class="mb-3">
+      <h6>Email:</h6>
+      <input
+        formControlName="email"
+        type="email"
+        class="form-control"
+        id="exampleInputEmail1"
+        required
+        placeholder="{{ user.email }}"
+        aria-label="Email"
+      />
+    </div>
+    <div class="mb-3">
+      <h6>Rola:</h6>
+      <select class="form-control" formControlName="role">
+        <option *ngFor="let role of roles" [ngValue]="">{{role}}</option>
+      </select>
+    </div>
+    <div class="mb-3">
+      <h6>Nagrody:</h6>
+      <ng-container *ngFor="let award of awards">
+        <div
+          class="badge m-1"
+          [ngClass]="{
+              'bg-secondary': award.rank === 1,
+              'bg-primary': award.rank === 2,
+              'bg-success': award.rank === 3,
+              'bg-danger': award.rank === 4,
+              'bg-warning': award.rank === 5
+            }"
+        >
+          {{ award.name | uppercase }}
+        </div>
+      </ng-container>
+    </div>
+    <div class="mb-3">
+      <a class="text-black-50" tabindex="-1" routerLink="/reset"
+      >Reset hasła</a
+      >
+    </div>
+    <div class="d-flex justify-content-end mt-5">
+      <button class="btn btn-warning text-white p-1 mx-2" (click)="resetValues()">Resetuj</button>
+      <button class="btn btn-success p-1" type="submit" >Zatwierdź</button>
+    </div>
+  </form>
+</div>

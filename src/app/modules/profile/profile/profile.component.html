@@ -1,1 +1,65 @@
-<p>profile works!</p>
+<div class="w-100 d-flex justify-content-end p-3">
+  <a
+    class="btn btn-outline-secondary mx-3"
+    tabindex="-1"
+    routerLink="/profile/edit"
+    >Edytuj profil</a
+  >
+  <a class="btn btn-danger" tabindex="-1" aria-disabled="true">Wyloguj się</a>
+</div>
+<div class="container my-5">
+  <div class="card w-50 mx-auto p-5">
+    <div class="p-3">
+      <div class="mb-3 d-flex justify-content-between">
+        <div>
+          <h6>Nazwa użytkownika:</h6>
+          {{ user.username }}
+        </div>
+        <div>
+          <img
+            src="{{ user.profileImageUrl }}"
+            alt="Avatar"
+            width="50"
+            height="50"
+            class="avatar"
+          />
+        </div>
+      </div>
+      <div class="mb-3">
+        <h6>Imię:</h6>
+        {{ user.firstName }}
+      </div>
+      <div class="mb-3">
+        <h6>Nazwisko:</h6>
+        {{ user.lastName }}
+      </div>
+      <div class="mb-3">
+        <h6>Email:</h6>
+        {{ user.email }}
+      </div>
+      <div class="mb-3">
+        <h6>Rola:</h6>
+        {{ user.role }}
+      </div>
+      <div class="mb-3">
+        <h6>Nagrody:</h6>
+        <ng-container *ngFor="let award of awards">
+          <div
+            class="badge m-1"
+            [ngClass]="{
+              'bg-secondary': award.rank === 1,
+              'bg-primary': award.rank === 2,
+              'bg-success': award.rank === 3,
+              'bg-danger': award.rank === 4,
+              'bg-warning': award.rank === 5
+            }"
+          >
+            {{ award.name }}
+          </div>
+        </ng-container>
+      </div>
+
+      <a class="text-black-50" tabindex="-1" routerLink="/reset">Reset hasła</a>
+    </div>
+  </div>
+</div>

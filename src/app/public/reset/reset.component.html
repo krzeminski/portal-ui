@@ -1,6 +1,7 @@
 <div class="container my-5 d-flex align-content-center justify-content-center">
-  <div class="w-50 my-5 p-5">
-    <form>
+  <div class="w-50 my-5 p-5 card">
+    <form  [formGroup]="emailForm"
+           (ngSubmit)="onSubmit()">
       <div class="mb-3">
         <label for="exampleInputEmail1" class="form-label">Email</label>
         <input
@@ -9,18 +10,17 @@
           id="exampleInputEmail1"
           aria-describedby="emailHelp"
           required="true"
+          placeholder="uzytkownik@domena.pl"
         />
       </div>
+      <div class="d-flex flex-row justify-content-between align-items-start">
+
       <div class="mb-3 form-check">
         <input type="checkbox" class="form-check-input" id="exampleCheck1" />
-        <label class="form-check-label" for="exampleCheck1">Captcha</label>
+        <label class="form-check-label" for="exampleCheck1">Zdaję sobie sprawę z tego, że moje hasło zostanie zresetowane</label>
       </div>
       <button type="submit" class="btn btn-primary w-25">Wyślij</button>
+      </div>
     </form>
-    <div class="py-3">
-      <a href="/reset" routerLink="/reset" class="text-danger">Zapomniałem hasła</a>
-      <br />
-      <a href="/register" routerLink="/register" class="text-secondary">Zarejestruj</a>
-    </div>
   </div>
 </div>

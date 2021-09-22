@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-reset',
@@ -6,7 +7,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./reset.component.scss'],
 })
 export class ResetComponent implements OnInit {
-  constructor() {}
+  emailForm;
 
+  constructor(private formBuilder: FormBuilder) {
+    this.emailForm = this.formBuilder.group({
+      email: '',
+    });
+  }
   ngOnInit(): void {}
+
+  onSubmit(){}
 }
