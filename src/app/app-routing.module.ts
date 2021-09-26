@@ -5,9 +5,10 @@ import { PageNotFoundComponent } from './public/error-pages/page-not-found/page-
 import { RegisterComponent } from './public/register/register.component';
 import { LoginComponent } from './public/login/login.component';
 import { ResetComponent } from './public/reset/reset.component';
+import {AccessDeniedComponent} from "./public/error-pages/access-denied/access-denied.component";
+import {NotAuthorizedComponent} from "./public/error-pages/not-authorized/not-authorized.component";
 
 const routes: Routes = [
-  { path: '', component: HomeComponent, pathMatch: 'full' },
   {
     path: 'register',
     component: RegisterComponent,
@@ -39,6 +40,9 @@ const routes: Routes = [
     loadChildren: () =>
       import('./modules/profile/profile.module').then((m) => m.ProfileModule),
   },
+  { path: '403', component: AccessDeniedComponent, pathMatch: 'full' },
+  { path: '401', component: NotAuthorizedComponent, pathMatch: 'full' },
+  { path: '', component: HomeComponent, pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent },
 ];
 

@@ -18,26 +18,45 @@
     >
       <div class="navbar-nav">
         <ng-container *ngIf="true">
-          <a class="nav-link" routerLink="/notes">Notatki</a>
-          <a class="nav-link" routerLink="/admin">Użytkownicy</a>
+          <a
+            class="nav-link"
+            routerLink="/notes"
+            routerLinkActive="active-link"
+          >
+            Notatki
+          </a>
+          <a
+            class="nav-link"
+            routerLink="/admin"
+            routerLinkActive="active-link"
+          >
+            Użytkownicy
+          </a>
 
           <a
             class="nav-link"
             tabindex="-1"
             aria-disabled="true"
             routerLink="/profile"
-            >Profil</a
+            routerLinkActive="active-link"
           >
-
+            Profil
+          </a>
         </ng-container>
         <ng-container *ngIf="true">
           <a
             class="nav-link mx-1 px-2 btn btn-outline-primary"
             routerLink="/login"
-            >Zaloguj się</a
+            routerLinkActive="active-link"
           >
-          <a class="nav-link mx-1 px-2 btn btn-primary" routerLink="/register"
-            >Zarejestruj się
+            Zaloguj się
+          </a>
+          <a
+            class="nav-link mx-1 px-2 btn btn-primary"
+            routerLink="/register"
+            routerLinkActive="active-link"
+          >
+            Zarejestruj się
           </a>
         </ng-container>
       </div>

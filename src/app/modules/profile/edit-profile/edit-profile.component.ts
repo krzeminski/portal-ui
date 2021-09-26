@@ -7,7 +7,7 @@ import { Role } from '../../../shared/enums/role.enum';
 @Component({
   selector: 'app-edit-profile',
   templateUrl: './edit-profile.component.html',
-  styleUrls: ['./edit-profile.component.scss'],
+  styleUrls: ['./edit-profile.component.scss']
 })
 export class EditProfileComponent implements OnInit {
   userForm;
@@ -48,7 +48,7 @@ export class EditProfileComponent implements OnInit {
 
   onSubmit() {
     console.log('onsubmit', this.userForm.value);
-    const data = {...this.userForm.values};
+    const data = { ...this.userForm.values };
     delete data.oldPassword;
     delete data.repeatedPassword;
     this.http.updateUser('4', data);
