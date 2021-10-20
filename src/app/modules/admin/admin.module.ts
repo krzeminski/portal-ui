@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { UsersComponent } from './users/users.component';
 import { UserComponent } from './user/user.component';
-import {ReactiveFormsModule} from "@angular/forms";
-import {SharedModule} from "../../shared/shared.module";
+import { ReactiveFormsModule } from '@angular/forms';
+import { SharedModule } from '../../shared/shared.module';
 
 const routes: Routes = [
   {
@@ -15,6 +15,11 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [UsersComponent, UserComponent],
-  imports: [CommonModule, RouterModule.forChild(routes), ReactiveFormsModule, SharedModule],
+  imports: [
+    CommonModule,
+    RouterModule.forChild(routes),
+    ReactiveFormsModule,
+    SharedModule,
+  ],
 })
 export class AdminModule {}

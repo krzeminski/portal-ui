@@ -32,13 +32,19 @@
           </td>
           <td>
             <div class="d-flex">
-              <app-modal>
-                <button button class="btn btn-outline-secondary p-1 m-1">
-                  Edytuj
-                </button>
-                <app-user modal [userId]="user.id"></app-user>
-              </app-modal>
-              <button class="btn btn-danger p-1 m-1">Usuń</button>
+              <button
+                class="btn btn-outline-secondary p-1 m-1"
+                (click)="open(user.id)"
+              >
+                Edytuj
+              </button>
+
+              <button
+                class="btn btn-danger p-1 m-1"
+                (click)="removeUser(user.id)"
+              >
+                Usuń
+              </button>
             </div>
           </td>
         </tr>

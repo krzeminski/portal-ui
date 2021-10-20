@@ -1,6 +1,6 @@
-<div (click)="isOpened = true">
-  <ng-content select="[button]"></ng-content>
-</div>
+<!--<div (click)="isOpened = true">-->
+<!--  <ng-content select="[button]"></ng-content>-->
+<!--</div>-->
 <div *ngIf="isOpened" class="position-absolute app-modal bg-white card p-5">
   <ng-content select="[modal]"></ng-content>
 </div>
