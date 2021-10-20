@@ -32,7 +32,6 @@ export class UserComponent implements OnInit {
     private formBuilder: FormBuilder,
     public modal: NgbActiveModal
   ) {
-    console.log('constructor');
     this.userForm = this.formBuilder.group({
       name: '',
       surname: '',
@@ -43,7 +42,6 @@ export class UserComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log('init', this.userId);
     if (this.userId) {
       this.http
         .getUser(this.userId)

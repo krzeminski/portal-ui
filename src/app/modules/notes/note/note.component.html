@@ -1,9 +1,23 @@
-<div class="">
-  <div class="d-flex justify-content-between align-items-center mb-3" *ngIf="noteId">
-    <h6>Data:</h6>
-    <p>{{ note.creationDate }}</p>
+<form [formGroup]="noteForm" (ngSubmit)="onSubmit()">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-title">{{ note.title }}</h4>
+    <button
+      type="button"
+      class="close"
+      aria-describedby="modal-title"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
   </div>
-  <form [formGroup]="noteForm" (ngSubmit)="onSubmit()">
+  <div class="modal-body">
+    <div
+      class="d-flex justify-content-between align-items-center mb-3"
+      *ngIf="noteId"
+    >
+      <h6>Data:</h6>
+      <p>{{ note.creationDate | date: 'h:mm dd/MM/yyy'}}</p>
+    </div>
     <div class="mb-3">
       <h6>Tytuł</h6>
       <input
@@ -15,28 +29,21 @@
     </div>
     <div class="mb-3">
       <h6>Tekst</h6>
-      <textarea
-        formControlName="text"
-        class="form-control"
-        rows="3"
-        ></textarea
-      >
+      <textarea formControlName="text" class="form-control" rows="3"></textarea>
     </div>
     <div class="d-flex justify-content-between align-items-center mb-3">
       <h6>Wartość:</h6>
-      <input
-        formControlName="value"
-        type="number"
-        class="form-control w-25"
-      />
+      <input formControlName="value" type="number" class="form-control w-25" />
     </div>
-  <div class="d-flex justify-content-between mb-3" *ngIf="noteId">
-    <div>Autor:</div>
-    <div>{{ note.email }}</div>
+    <div class="d-flex justify-content-between mb-3" *ngIf="noteId">
+      <div>Autor:</div>
+      <div>{{ note.email }}</div>
+    </div>
   </div>
-    <div class="d-flex justify-content-end mt-5">
-      <button class="btn btn-warning text-white p-1 mx-2" (click)="resetValues()">Resetuj</button>
-      <button class="btn btn-success p-1" type="submit" >Zatwierdź</button>
-    </div>
-  </form>
-</div>
+  <div class="modal-footer">
+    <button class="btn btn-warning text-white p-1 mx-2" (click)="resetValues()">
+      Resetuj
+    </button>
+    <button class="btn btn-success p-1" type="submit">Zatwierdź</button>
+  </div>
+</form>

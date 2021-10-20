@@ -1,7 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { HttpService } from '../../../shared/services/http.service';
 import { FormBuilder } from '@angular/forms';
-import {Note} from "../../../shared/interfaces/note.interface";
+import { Note } from '../../../shared/interfaces/note.interface';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-note',
@@ -20,7 +21,11 @@ export class NoteComponent implements OnInit {
     email: '',
   };
   noteForm;
-  constructor(private http: HttpService, private formBuilder: FormBuilder) {
+  constructor(
+    private http: HttpService,
+    private formBuilder: FormBuilder,
+    public modal: NgbActiveModal
+  ) {
     this.noteForm = this.formBuilder.group({
       title: this.note.title,
       text: this.note.text,
@@ -29,26 +34,28 @@ export class NoteComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if(this.noteId){
-      this.http.getNote(this.noteId).subscribe((note) => (this.note = note));
-      this.noteForm.patchValue({
-        title: this.note.title,
-        text: this.note.text,
-        value: this.note.value,
+    console.log(this.noteId);
+    if (this.noteId) {
+      this.http.getNote(this.noteId).subscribe((note) => {
+        this.note = note;
+        this.noteForm.patchValue({
+          title: this.note.title,
+          text: this.note.text,
+          value: this.note.value,
+        });
       });
     }
   }
 
-  onSubmit(){
-    console.log(this.noteForm.value)
+  onSubmit() {
+    console.log(this.noteForm.value);
   }
 
-  resetValues(){
+  resetValues() {
     this.noteForm.patchValue({
       title: this.note.title,
       text: this.note.text,
       value: this.note.value,
     });
   }
-
 }

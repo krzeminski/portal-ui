@@ -1,9 +1,6 @@
 <div class="container-fluid">
   <div class="d-flex justify-content-end my-4">
-    <app-modal>
-      <button button class="btn btn-success">Dodaj notatkę</button>
-      <app-note modal></app-note>
-    </app-modal>
+      <button button class="btn btn-success" (click)="open()">Dodaj notatkę</button>
   </div>
   <table class="table table-hover">
     <thead>
@@ -21,20 +18,26 @@
       <ng-container *ngFor="let note of notes">
         <tr>
           <th scope="row">{{ note.id }}</th>
-          <td>{{ note.creationDate }}</td>
+          <td>{{ note.creationDate | date: 'h:mm dd/MM/yyy'}}</td>
           <td>{{ note.title }}</td>
           <td>{{ note.text }}</td>
           <td>{{ note.value }}</td>
           <td>{{ note.email }}</td>
           <td>
-            <div class="d-flex">
-              <app-modal>
-                <button button class="btn btn-outline-secondary p-1 m-1">
+              <div class="d-flex">
+                <button
+                  class="btn btn-outline-secondary p-1 m-1"
+                  (click)="open(note.id)"
+                >
                   Edytuj
                 </button>
-                <app-note modal [noteId]="note.id"></app-note>
-              </app-modal>
-              <button class="btn btn-danger p-1 m-1">Usuń</button>
+
+                <button
+                  class="btn btn-danger p-1 m-1"
+                  (click)="removeNote(note.id)"
+                >
+                  Usuń
+                </button>
             </div>
           </td>
         </tr>
