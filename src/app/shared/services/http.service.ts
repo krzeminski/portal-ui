@@ -19,8 +19,8 @@ export class HttpService {
   register() {}
 
   getUsers(): Observable<User[]> {
-    return this.http.get<GetResponse<User[]>>(this.apiUrl + `/user`).pipe(
-      map((res) => res._embedded.user),
+    return this.http.get<GetResponse<User[]>>(this.apiUrl + `/users`).pipe(
+      map((res) => res._embedded.users),
       map((users: User[]) =>
         users.map((user, id) => {
           return { ...user, id: `${id + 1}` };
@@ -30,7 +30,7 @@ export class HttpService {
   }
 
   getUser(id?: string): Observable<User> {
-    return this.http.get<User>(this.apiUrl + `/user/${id}`).pipe(
+    return this.http.get<User>(this.apiUrl + `/users/${id}`).pipe(
       map((user: User) => {
         return {id: id, ...user};
       })
@@ -38,12 +38,12 @@ export class HttpService {
   }
 
   updateUser(id: string, data){
-    this.http.post<User>(this.apiUrl + `/user/${id}`, data);
+    this.http.post<User>(this.apiUrl + `/users/${id}`, data);
   }
 
   getAwards(id?: string): Observable<any> {
     return this.http
-      .get<GetResponse<Awards[]>>(this.apiUrl + `/user/${id}/awards`)
+      .get<GetResponse<Awards[]>>(this.apiUrl + `/users/${id}/awards`)
       .pipe(map((res) => res._embedded.awards));
   }
 
