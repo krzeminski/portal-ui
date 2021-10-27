@@ -48,13 +48,8 @@ export class HttpService {
   }
 
   getNotes(): Observable<Note[]> {
-    return this.http.get<GetResponse<Note[]>>(this.apiUrl + `/notes`).pipe(
-      map((res) => res._embedded.notes),
-      map((notes: Note[]) =>
-        notes.map((note, id) => {
-          return { ...note, id: `${id + 1}` };
-        })
-      )
+    return this.http.get<Paging<Note>>(`http://localhost:8081/notes`).pipe(
+      map(page => page.content)
     );
   }
 
@@ -77,4 +72,34 @@ export class HttpService {
 
 interface GetResponse<T> {
   _embedded;
+}
+
+export interface Paging<T> {
+  content: T[];
+  first: boolean;
+  last: boolean;
+  number: number;
+  numberOfElements: number;
+  pageable: Pageable;
+  size: number;
+  sort: {
+    empty: boolean;
+    sorted: boolean;
+    unsorted: boolean;
+  };
+  totalPages: number;
+  totalElements: number;
+}
+
+export interface Pageable {
+  sort: {
+    unsorted: boolean;
+    sorted: boolean;
+    empty: boolean;
+  };
+  pageNumber: number;
+  pageSize: number;
+  offset: number;
+  paged: boolean;
+  unpaged?: boolean;
 }

@@ -6,5 +6,5 @@ export interface Note {
   text: string;
   value: number;
   userId: number;
-  email: string;
+  author: string;
 }

@@ -18,7 +18,7 @@ export class NoteComponent implements OnInit {
     text: 'Wprowadź opis',
     value: 0,
     userId: 0,
-    email: '',
+    author: '',
   };
   noteForm;
   constructor(
