@@ -12,7 +12,7 @@ import { UserComponent } from '../user/user.component';
 })
 export class UsersComponent implements OnInit {
   users: User[] = [];
-  awards: Awards[] = [];
+  // awards: Awards[] = [];
   constructor(private http: HttpService, private modalService: NgbModal) {}
 
   ngOnInit(): void {

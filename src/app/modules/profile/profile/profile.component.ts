@@ -11,7 +11,6 @@ import {concatMap, map, tap} from "rxjs/operators";
   styleUrls: ['./profile.component.scss'],
 })
 export class ProfileComponent implements OnInit {
-  awards: Awards[];
   user: User = {
     id: '1',
     firstName: '',
@@ -21,6 +20,7 @@ export class ProfileComponent implements OnInit {
     // picture: 'https://images.freeimages.com/images/large-previews/0d7/marguerites-1-1478725.jpg',
     profileImageUrl: '/src/assets/marguerites.jpg',
     role: Role.USER,
+    awards: []
   };
 
   constructor(private http: HttpService) {
@@ -33,8 +33,7 @@ export class ProfileComponent implements OnInit {
       .pipe(
         tap(el => console.log('user', el)),
         tap((user) => (this.user = user)),
-        concatMap((user) => this.http.getAwards(user.id)),
-        map((award) => (this.awards = award))
+
       )
       .subscribe();
   }

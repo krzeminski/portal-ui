@@ -15,7 +15,6 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 export class UserComponent implements OnInit {
   @Input() userId: string;
   roles = [Role.USER, Role.MODERATOR, Role.ADMIN];
-  awards: Awards[] = [];
   user: User = {
     id: '0',
     firstName: '',
@@ -24,6 +23,7 @@ export class UserComponent implements OnInit {
     email: '',
     profileImageUrl: 'url',
     role: Role.USER,
+    awards: []
   };
   userForm;
 
@@ -46,9 +46,7 @@ export class UserComponent implements OnInit {
       this.http
         .getUser(this.userId)
         .pipe(
-          map((user) => (this.user = user)),
-          concatMap((user) => this.http.getAwards(this.userId)),
-          map((award) => (this.awards = award))
+          map((user) => (this.user = user))
         )
         .subscribe();
       this.userForm.patchValue({});

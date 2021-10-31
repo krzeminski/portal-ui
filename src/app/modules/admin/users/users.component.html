@@ -9,7 +9,7 @@
         <th scope="col">Nazwa użytkownika</th>
         <th scope="col">Email</th>
         <th scope="col">Rola</th>
-        <!--        <th scope="col">Nagrody</th>-->
+        <th scope="col">Nagrody</th>
         <th scope="col">Opcje</th>
       </tr>
     </thead>
@@ -36,11 +36,22 @@
           <td>
             {{ user.role }}
           </td>
-          <!--          <td>-->
-          <!--            <ng-container *ngFor="let award of awards">-->
-          <!--              {{ award }}-->
-          <!--            </ng-container>-->
-          <!--          </td>-->
+          <td>
+            <ng-container *ngFor="let award of user.awards">
+              <div
+                class="badge m-1"
+                [ngClass]="{
+                  'bg-secondary': award.rank === 1,
+                  'bg-primary': award.rank === 2,
+                  'bg-success': award.rank === 3,
+                  'bg-danger': award.rank === 4,
+                  'bg-warning': award.rank === 5
+                }"
+              >
+                {{ award.name | uppercase }}
+              </div>
+            </ng-container>
+          </td>
           <td>
             <div class="d-flex">
               <button

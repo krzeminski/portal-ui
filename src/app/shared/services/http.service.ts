@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
-import {Observable, of, Subject} from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 import { User } from '../interfaces/user.interface';
 import { HttpClient } from '@angular/common/http';
 import { Note } from '../interfaces/note.interface';
-import { map } from 'rxjs/operators';
+import {map, tap} from 'rxjs/operators';
 import { Awards } from '../interfaces/awards.interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class HttpService {
-  apiUrl = 'http://localhost:8081/api';
+  apiUrl = 'http://localhost:8081';
   constructor(private http: HttpClient) {}
 
   usersMap: Subject<User> = new Subject<User>();
@@ -19,47 +19,38 @@ export class HttpService {
   register() {}
 
   getUsers(): Observable<User[]> {
-    return this.http.get<GetResponse<User[]>>(this.apiUrl + `/users`).pipe(
-      map((res) => res._embedded.users),
-      map((users: User[]) =>
-        users.map((user, id) => {
-          return { ...user, id: `${id + 1}` };
-        })
-      )
+    return this.http.get<Paging<User>>(this.apiUrl + `/users`).pipe(
+      map((page) => page.content),
+      tap(console.log)
     );
   }
 
   getUser(id?: string): Observable<User> {
     return this.http.get<User>(this.apiUrl + `/users/${id}`).pipe(
       map((user: User) => {
-        return {id: id, ...user};
+        return { id: id, ...user };
       })
     );
   }
 
-  updateUser(id: string, data){
-    this.http.post<User>(this.apiUrl + `/users/${id}`, data);
-  }
-
-  getAwards(id?: string): Observable<any> {
-    return this.http
-      .get<GetResponse<Awards[]>>(this.apiUrl + `/users/${id}/awards`)
-      .pipe(map((res) => res._embedded.awards));
+  updateUser(id: string, data) {
+    this.http.post<User>(this.apiUrl + `/api/users/${id}`, data);
   }
 
   getNotes(): Observable<Note[]> {
-    return this.http.get<Paging<Note>>(`http://localhost:8081/notes`).pipe(
-      map(page => page.content)
-    );
+    return this.http
+      .get<Paging<Note>>(this.apiUrl + `/notes`)
+      .pipe(map((page) => page.content));
   }
 
   getNote(id?: string): Observable<Note> {
-    return this.http.get<Note>(this.apiUrl + `/notes/${id}`).pipe(
+    return this.http.get<Note>(this.apiUrl + `/api/notes/${id}`).pipe(
       map((note: Note) => {
         return { ...note, id: id };
       })
     );
   }
+
   // postNote(): Observable<any>{};
 
   postFile(fileToUpload: File): Observable<any> {

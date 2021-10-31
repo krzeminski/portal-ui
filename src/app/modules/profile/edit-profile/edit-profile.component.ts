@@ -21,6 +21,7 @@ export class EditProfileComponent implements OnInit {
     // picture: 'https://images.freeimages.com/images/large-previews/0d7/marguerites-1-1478725.jpg',
     profileImageUrl: '/src/assets/marguerites.jpg',
     role: Role.USER,
+    awards: []
   };
 
   constructor(private http: HttpService, private formBuilder: FormBuilder) {
