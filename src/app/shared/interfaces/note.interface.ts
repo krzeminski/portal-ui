@@ -1,10 +1,11 @@
 export interface Note {
   id?: string;
-  creationDate: string;
+  creationDate?: string;
   updateDate?: string;
   title: string;
   text: string;
   value: number;
-  userId: number;
-  author: string;
+  userId?: number;
+  authorUsername?: string;
+  authorEmail: string;
 }

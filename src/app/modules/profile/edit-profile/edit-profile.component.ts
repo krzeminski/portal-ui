@@ -1,28 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpService } from '../../../shared/services/http.service';
 import { User } from '../../../shared/interfaces/user.interface';
+import { user as userInit } from '../../../shared/mocks/UserMock';
 import { FormBuilder } from '@angular/forms';
-import { Role } from '../../../shared/enums/role.enum';
 
 @Component({
   selector: 'app-edit-profile',
   templateUrl: './edit-profile.component.html',
-  styleUrls: ['./edit-profile.component.scss']
+  styleUrls: ['./edit-profile.component.scss'],
 })
 export class EditProfileComponent implements OnInit {
+  user: User = userInit;
   userForm;
   fileToUpload: File | null = null;
-  user: User = {
-    id: '1',
-    firstName: '',
-    lastName: '',
-    username: '',
-    email: '',
-    // picture: 'https://images.freeimages.com/images/large-previews/0d7/marguerites-1-1478725.jpg',
-    profileImageUrl: '/src/assets/marguerites.jpg',
-    role: Role.USER,
-    awards: []
-  };
 
   constructor(private http: HttpService, private formBuilder: FormBuilder) {
     this.http.getUser(this.user.id).subscribe((user) => (this.user = user));

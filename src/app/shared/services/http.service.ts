@@ -1,17 +1,17 @@
 import { Injectable } from '@angular/core';
-import { Observable, of, Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { User } from '../interfaces/user.interface';
 import { HttpClient } from '@angular/common/http';
 import { Note } from '../interfaces/note.interface';
-import {map, tap} from 'rxjs/operators';
-import { Awards } from '../interfaces/awards.interface';
+import { catchError, map, tap } from 'rxjs/operators';
+import { ConfigService } from '../../core/config/config.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class HttpService {
   apiUrl = 'http://localhost:8081';
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private config: ConfigService) {}
 
   usersMap: Subject<User> = new Subject<User>();
 
@@ -33,8 +33,8 @@ export class HttpService {
     );
   }
 
-  updateUser(id: string, data) {
-    this.http.post<User>(this.apiUrl + `/api/users/${id}`, data);
+  updateUser(id: string, data): Observable<User> {
+    return this.http.put<User>(this.apiUrl + `/users/${id}`, data);
   }
 
   getNotes(): Observable<Note[]> {
@@ -51,7 +51,26 @@ export class HttpService {
     );
   }
 
-  // postNote(): Observable<any>{};
+  postNote(note: Note): Observable<Note> {
+    const url = this.apiUrl + `/notes`;
+    return this.http
+      .post<Note>(url, note)
+      .pipe(catchError(this.config.handleHttpError));
+  }
+
+  updateNote(note: Note) {
+    const url = `${this.apiUrl}/notes/${note.id}`;
+    return this.http
+      .put<Note>(url, note)
+      .pipe(catchError(this.config.handleHttpError));
+  }
+
+  deleteNote(noteId: String | Number) {
+    const url = `${this.apiUrl}/notes/${noteId}`;
+    return this.http
+      .delete<Note>(url)
+      .pipe(catchError(this.config.handleHttpError));
+  }
 
   postFile(fileToUpload: File): Observable<any> {
     const endpoint = 'your-destination-url';

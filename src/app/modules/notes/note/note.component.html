@@ -16,7 +16,7 @@
       *ngIf="noteId"
     >
       <h6>Data:</h6>
-      <p>{{ note.creationDate | date: 'h:mm dd/MM/yyy'}}</p>
+      <p>{{ note.creationDate || note.updateDate | date: 'h:mm dd/MM/yyy'}}</p>
     </div>
     <div class="mb-3">
       <h6>Tytuł</h6>
@@ -37,7 +37,7 @@
     </div>
     <div class="d-flex justify-content-between mb-3" *ngIf="noteId">
       <div>Autor:</div>
-      <div>{{ note.email }}</div>
+      <div>{{ note.authorUsername }}</div>
     </div>
   </div>
   <div class="modal-footer">

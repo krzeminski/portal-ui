@@ -1,5 +1,5 @@
 import { Role } from '../enums/role.enum';
-import {Awards} from "./awards.interface";
+import { Awards } from './awards.interface';
 
 export interface User {
   id?: string;
@@ -9,8 +9,8 @@ export interface User {
   email: string;
   password?: string;
   profileImageUrl?: string;
-  role?: Role;
-  active?: boolean;
-  locked?: boolean;
+  role: Role;
+  isActive?: boolean;
+  isLocked?: boolean;
   awards: Awards[];
 }

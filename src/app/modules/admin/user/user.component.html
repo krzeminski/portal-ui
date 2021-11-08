@@ -25,7 +25,7 @@
     <div class="mb-3">
       <h6>Nazwa użytkownika:</h6>
       <input
-        formControlName="userName"
+        formControlName="username"
         type="text"
         class="form-control"
         placeholder="{{ user.username }}"
@@ -35,7 +35,7 @@
     <div class="mb-3">
       <h6>Imię:</h6>
       <input
-        formControlName="name"
+        formControlName="firstName"
         type="text"
         class="form-control"
         placeholder="{{ user.firstName }}"
@@ -45,7 +45,7 @@
     <div class="mb-3">
       <h6>Nazwisko:</h6>
       <input
-        formControlName="surname"
+        formControlName="lastName"
         type="text"
         class="form-control"
         placeholder="{{ user.lastName }}"
@@ -67,7 +67,7 @@
     <div class="mb-3">
       <h6>Rola:</h6>
       <select class="form-control" formControlName="role">
-        <option *ngFor="let role of roles" [ngValue]="">{{ role }}</option>
+        <option *ngFor="let role of roles">{{ role }}</option>
       </select>
     </div>
     <div class="mb-3">

@@ -3,6 +3,7 @@ import { HttpService } from '../../../shared/services/http.service';
 import { Note } from '../../../shared/interfaces/note.interface';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NoteComponent } from '../note/note.component';
+import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-notes',
@@ -24,5 +25,9 @@ export class NotesComponent implements OnInit {
 
   removeNote(noteId: string) {
     console.log(noteId);
+    this.http
+      .deleteNote(noteId)
+      .pipe(first())
+      .subscribe((el) => console.log('delete', el));
   }
 }

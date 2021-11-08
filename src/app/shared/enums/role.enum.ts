@@ -1,5 +1,5 @@
 export enum Role {
-  ADMIN = 'Administrator',
-  MODERATOR = 'Moderator',
-  USER = 'Użytkownik',
+  ADMIN = <any>'Administrator',
+  MODERATOR = <any>'Moderator',
+  USER = <any>'Użytkownik',
 }
