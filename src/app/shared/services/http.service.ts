@@ -34,7 +34,15 @@ export class HttpService {
   }
 
   updateUser(id: string, data): Observable<User> {
-    return this.http.put<User>(this.apiUrl + `/users/${id}`, data);
+    return this.http
+      .put<User>(this.apiUrl + `/users/${id}`, data)
+      .pipe(catchError(this.config.handleHttpError));
+  }
+
+  deleteUser(id: String | Number) {
+    return this.http
+      .delete<User>(`${this.apiUrl}/users/${id}`)
+      .pipe(catchError(this.config.handleHttpError));
   }
 
   getNotes(): Observable<Note[]> {

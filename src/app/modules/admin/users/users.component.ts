@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpService } from '../../../shared/services/http.service';
 import { User } from '../../../shared/interfaces/user.interface';
-import { Awards } from '../../../shared/interfaces/awards.interface';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserComponent } from '../user/user.component';
+import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-users',
@@ -12,7 +12,6 @@ import { UserComponent } from '../user/user.component';
 })
 export class UsersComponent implements OnInit {
   users: User[] = [];
-  // awards: Awards[] = [];
   constructor(private http: HttpService, private modalService: NgbModal) {}
 
   ngOnInit(): void {
@@ -24,7 +23,10 @@ export class UsersComponent implements OnInit {
     modalRef.componentInstance.userId = userId;
   }
 
-  removeUser(userId: string){
-    console.log(userId)
+  removeUser(userId: string) {
+    this.http
+      .deleteUser(userId)
+      .pipe(first())
+      .subscribe((el) => console.log('delete', el));
   }
 }
