@@ -42,7 +42,7 @@ export class EditProfileComponent implements OnInit {
     const data = { ...this.userForm.values };
     delete data.oldPassword;
     delete data.repeatedPassword;
-    this.http.updateUser('4', data);
+    // this.http.updateUser(data);
   }
 
   handleFileInput(event: Event) {

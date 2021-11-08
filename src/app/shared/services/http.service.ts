@@ -33,9 +33,15 @@ export class HttpService {
     );
   }
 
-  updateUser(id: string, data): Observable<User> {
+  addUser(user: User): Observable<User> {
     return this.http
-      .put<User>(this.apiUrl + `/users/${id}`, data)
+      .post<User>(this.apiUrl + `/users`, user)
+      .pipe(catchError(this.config.handleHttpError));
+  }
+
+  updateUser(user: User): Observable<User> {
+    return this.http
+      .put<User>(this.apiUrl + `/users/${user.id}`, user)
       .pipe(catchError(this.config.handleHttpError));
   }
 
@@ -86,10 +92,6 @@ export class HttpService {
     formData.append('fileKey', fileToUpload, fileToUpload.name);
     return this.http.post(endpoint, formData);
   }
-}
-
-interface GetResponse<T> {
-  _embedded;
 }
 
 export interface Paging<T> {

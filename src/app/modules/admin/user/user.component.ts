@@ -3,8 +3,7 @@ import { HttpService } from '../../../shared/services/http.service';
 import { FormBuilder } from '@angular/forms';
 import { User } from '../../../shared/interfaces/user.interface';
 import { Role } from '../../../shared/enums/role.enum';
-import {concatMap, first, map, tap} from 'rxjs/operators';
-import { Awards } from '../../../shared/interfaces/awards.interface';
+import { first, map, tap } from 'rxjs/operators';
 import { user as userInit } from '../../../shared/mocks/UserMock';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -37,11 +36,12 @@ export class UserComponent implements OnInit {
     if (this.userId) {
       this.http
         .getUser(this.userId)
-        .pipe(
-          map((user) => (this.user = user))
-        )
+        .pipe(map((user) => (this.user = user)))
         .subscribe();
-      this.userForm.patchValue({...this.user, firstName: this.user.firstName});
+      this.userForm.patchValue({
+        ...this.user,
+        firstName: this.user.firstName,
+      });
     }
   }
 
@@ -50,10 +50,10 @@ export class UserComponent implements OnInit {
     const user = {
       ...this.userForm.value,
       role: Role[this.userForm.value.role],
-      id: this.userId
+      id: this.userId,
     };
     this.http
-      .updateUser(this.userId, user)
+      .updateUser(user)
       .pipe(tap(console.log), first())
       .subscribe((el) => console.log(el, 'subscribe submit'));
   }
