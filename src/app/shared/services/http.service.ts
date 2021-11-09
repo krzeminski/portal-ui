@@ -58,7 +58,7 @@ export class HttpService {
   }
 
   getNote(id?: string): Observable<Note> {
-    return this.http.get<Note>(this.apiUrl + `/api/notes/${id}`).pipe(
+    return this.http.get<Note>(this.apiUrl + `/notes/${id}`).pipe(
       map((note: Note) => {
         return { ...note, id: id };
       })

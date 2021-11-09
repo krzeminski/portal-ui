@@ -37,7 +37,7 @@
     </div>
     <div class="d-flex justify-content-between mb-3" *ngIf="noteId">
       <div>Autor:</div>
-      <div>{{ note.authorUsername }}</div>
+      <div>{{ note.authorUsername || note.authorEmail }}</div>
     </div>
   </div>
   <div class="modal-footer">

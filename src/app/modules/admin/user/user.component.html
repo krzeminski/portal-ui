@@ -86,6 +86,7 @@
           {{ award.name | uppercase }}
         </div>
       </ng-container>
+      <p *ngIf="!user.awards.length">Brak</p>
     </div>
   </div>
     <div class="modal-footer">
