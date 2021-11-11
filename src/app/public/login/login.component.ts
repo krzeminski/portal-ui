@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../core/services/auth.service';
-import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
+import { AccountService } from '../../core/services/account.service';
+import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-login',
@@ -10,9 +11,13 @@ import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 export class LoginComponent implements OnInit {
   credentialsForm;
 
-  constructor(private auth: AuthService, private formBuilder: FormBuilder) {
+  constructor(
+    private account: AccountService,
+    private formBuilder: FormBuilder,
+
+  ) {
     this.credentialsForm = this.formBuilder.group({
-      userName: '',
+      email: '',
       password: '',
     });
   }
@@ -20,8 +25,8 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {}
 
   onSubmit(): void {
-    console.log('Your order has been submitted', this.credentialsForm.value);
-    this.auth.getUserDetails(this.credentialsForm.value);
+    this.account.login(this.credentialsForm.value).pipe(first()).subscribe();
     this.credentialsForm.reset();
+
   }
 }

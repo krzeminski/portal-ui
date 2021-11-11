@@ -13,7 +13,7 @@ export class AuthService {
   }
 }
 
-interface Credentials {
-  userName: string,
+export interface Credentials {
+  email: string,
   password: string
 }

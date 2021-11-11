@@ -18,7 +18,7 @@
       <ng-container *ngFor="let note of notes">
         <tr>
           <th scope="row">{{ note.id }}</th>
-          <td>{{ note.creationDate || note.updateDate | date: 'h:mm dd/MM/yyy'}}</td>
+          <td>{{ note.updateDate || note.creationDate  | date: 'h:mm dd/MM/yyy'}}</td>
           <td>{{ note.title }}</td>
           <td>{{ note.text }}</td>
           <td>{{ note.value }}</td>

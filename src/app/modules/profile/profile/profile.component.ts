@@ -1,26 +1,17 @@
-import { Component, OnInit } from '@angular/core';
-import { HttpService } from '../../../shared/services/http.service';
+import { Component } from '@angular/core';
 import { User } from '../../../shared/interfaces/user.interface';
-import { user as userInit } from '../../../shared/mocks/UserMock';
-import { tap } from 'rxjs/operators';
+import { AccountService } from '../../../core/services/account.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss'],
 })
-export class ProfileComponent implements OnInit {
-  user: User = userInit;
+export class ProfileComponent {
+  user$: Observable<User>;
 
-  constructor(private http: HttpService) {}
-
-  ngOnInit(): void {
-    this.http
-      .getUser(this.user.id)
-      .pipe(
-        tap((el) => console.log('user', el)),
-        tap((user) => (this.user = user))
-      )
-      .subscribe();
+  constructor(private account: AccountService) {
+    this.user$ = this.account.user$;
   }
 }

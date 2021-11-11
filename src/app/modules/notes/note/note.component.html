@@ -16,7 +16,7 @@
       *ngIf="noteId"
     >
       <h6>Data:</h6>
-      <p>{{ note.creationDate || note.updateDate | date: 'h:mm dd/MM/yyy'}}</p>
+      <p>{{ note.updateDate || note.creationDate | date: 'h:mm dd/MM/yyy'}}</p>
     </div>
     <div class="mb-3">
       <h6>Tytuł</h6>
@@ -41,7 +41,7 @@
     </div>
   </div>
   <div class="modal-footer">
-    <button class="btn btn-warning text-white p-1 mx-2" (click)="resetValues()">
+    <button class="btn btn-warning text-white p-1 mx-2" type="button" (click)="resetValues()">
       Resetuj
     </button>
     <button class="btn btn-success p-1" type="submit">Zatwierdź</button>

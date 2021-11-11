@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { Note } from '../interfaces/note.interface';
 import { catchError, map, tap } from 'rxjs/operators';
 import { ConfigService } from '../../core/config/config.service';
+import {Credentials} from "../../core/services/auth.service";
 
 @Injectable({
   providedIn: 'root',
@@ -15,8 +16,14 @@ export class HttpService {
 
   usersMap: Subject<User> = new Subject<User>();
 
-  login() {}
-  register() {}
+  login(credentials: Credentials) {
+    return this.http.post<User>(`${this.apiUrl}/users/authenticate`, credentials);
+  }
+
+  register(user: User) {
+    // return this.http.post(`${this.apiUrl}/users/register`, user);
+    return this.addUser(user);
+  }
 
   getUsers(): Observable<User[]> {
     return this.http.get<Paging<User>>(this.apiUrl + `/users`).pipe(

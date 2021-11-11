@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { HttpService } from '../../shared/services/http.service';
+import {first, tap} from "rxjs/operators";
 
 @Component({
   selector: 'app-register',
@@ -25,7 +26,6 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void {}
 
   onSubmit() {
-    console.log(this.registerForm.value);
     const user = {
       ...this.registerForm.value,
       role: 'USER',
@@ -35,9 +35,9 @@ export class RegisterComponent implements OnInit {
 
     console.log(user);
 
-    // this.http
-    //   .addUser(user)
-    //   .pipe(tap(console.log), first())
-    //   .subscribe((el) => console.log(el, 'subscribe submit'));
+    this.http
+      .register(user)
+      .pipe(tap(console.log), first())
+      .subscribe((el) => console.log(el, 'subscribe submit'));
   }
 }

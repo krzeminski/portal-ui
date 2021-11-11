@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpService } from '../../../shared/services/http.service';
 import { User } from '../../../shared/interfaces/user.interface';
-import { user as userInit } from '../../../shared/mocks/UserMock';
 import { FormBuilder } from '@angular/forms';
+import { AccountService } from '../../../core/services/account.service';
+import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-edit-profile',
@@ -10,12 +10,17 @@ import { FormBuilder } from '@angular/forms';
   styleUrls: ['./edit-profile.component.scss'],
 })
 export class EditProfileComponent implements OnInit {
-  user: User = userInit;
+  user: User;
+
   userForm;
   fileToUpload: File | null = null;
 
-  constructor(private http: HttpService, private formBuilder: FormBuilder) {
-    this.http.getUser(this.user.id).subscribe((user) => (this.user = user));
+  constructor(
+    private account: AccountService,
+    private formBuilder: FormBuilder
+  ) {
+    this.account.user$.pipe(first()).subscribe((user) => (this.user = user));
+
     this.userForm = this.formBuilder.group({
       firstName: '',
       lastName: '',
@@ -34,6 +39,7 @@ export class EditProfileComponent implements OnInit {
       userName: this.user.username,
       email: this.user.email,
     });
+    //todo: no default values
     console.log(this.userForm.values);
   }
 

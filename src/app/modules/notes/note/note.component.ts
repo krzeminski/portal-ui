@@ -5,6 +5,7 @@ import { Note } from '../../../shared/interfaces/note.interface';
 import { note as noteInit } from '../../../shared/mocks/NoteMock';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { first, tap } from 'rxjs/operators';
+import { AccountService } from '../../../core/services/account.service';
 
 @Component({
   selector: 'app-note',
@@ -18,6 +19,7 @@ export class NoteComponent implements OnInit {
   constructor(
     private http: HttpService,
     private formBuilder: FormBuilder,
+    private account: AccountService,
     public modal: NgbActiveModal
   ) {
     this.noteForm = this.formBuilder.group({
@@ -49,15 +51,14 @@ export class NoteComponent implements OnInit {
     };
     if (this.noteId) {
       this.http
-        .updateNote({...note, id: this.noteId})
+        .updateNote({ ...note, id: this.noteId })
         .pipe(tap(console.log), first())
         .subscribe((el) => console.log(el, 'subscribe submit'));
-    }else{
-
-    this.http
-      .postNote(note)
-      .pipe(tap(console.log), first())
-      .subscribe((el) => console.log(el, 'subscribe submit'));
+    } else {
+      this.http
+        .postNote(note)
+        .pipe(tap(console.log), first())
+        .subscribe((el) => console.log(el, 'subscribe submit'));
     }
   }
 
@@ -68,7 +69,13 @@ export class NoteComponent implements OnInit {
       value: this.note.value,
     });
   }
+
   getCurrentUserMail(): string {
-    return 'user@portal.com';
+    let userMail;
+    this.account.user$
+      .pipe(first())
+      .subscribe((user) => (userMail = user.email));
+
+    return userMail;
   }
 }

@@ -1,13 +1,12 @@
 <div class="w-100 d-flex justify-content-end p-3">
   <a
-    class="btn btn-outline-secondary mx-3"
+    class="btn btn-outline-secondary"
     tabindex="-1"
     routerLink="/profile/edit"
     >Edytuj profil</a
   >
-  <a class="btn btn-danger" tabindex="-1" aria-disabled="true">Wyloguj się</a>
 </div>
-<div class="container">
+<div class="container" *ngIf="(user$ | async) as user">
   <div class="card w-50 mx-auto p-5">
     <div class="p-3">
       <div class="mb-3 d-flex justify-content-between">
