@@ -104,6 +104,15 @@
               "./node_modules/bootstrap/dist/js/bootstrap.min.js"
             ]
           }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
+            ]
+          }
         }
       }
     }
@@ -113,5 +122,8 @@
       "style": "scss"
     }
   },
-  "defaultProject": "portal"
+  "defaultProject": "portal",
+  "cli": {
+    "defaultCollection": "@angular-eslint/schematics"
+  }
 }
