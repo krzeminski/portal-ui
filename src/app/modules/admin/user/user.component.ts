@@ -3,8 +3,7 @@ import { HttpService } from '../../../shared/services/http.service';
 import { FormBuilder } from '@angular/forms';
 import { User } from '../../../shared/interfaces/user.interface';
 import { Role } from '../../../shared/enums/role.enum';
-import { first, map, tap } from 'rxjs/operators';
-import { user as userInit } from '../../../shared/mocks/UserMock';
+import { first, tap } from 'rxjs/operators';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -15,7 +14,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 export class UserComponent implements OnInit {
   @Input() userId: string;
   roles = [Role.USER, Role.MODERATOR, Role.ADMIN];
-  user: User = userInit;
+  user: User;
   userForm;
 
   constructor(
@@ -24,11 +23,11 @@ export class UserComponent implements OnInit {
     public modal: NgbActiveModal
   ) {
     this.userForm = this.formBuilder.group({
-      firstName: this.user.firstName,
-      lastName: this.user.lastName,
-      username: this.user.username,
-      email: this.user.email,
-      role: this.user.role,
+      firstName: '',
+      lastName: '',
+      username: '',
+      email: '',
+      role: '',
     });
   }
 
@@ -36,12 +35,14 @@ export class UserComponent implements OnInit {
     if (this.userId) {
       this.http
         .getUser(this.userId)
-        .pipe(map((user) => (this.user = user)))
-        .subscribe();
-      this.userForm.patchValue({
-        ...this.user,
-        firstName: this.user.firstName,
-      });
+        .pipe(first())
+        .subscribe((user) => {
+          this.user = user;
+          this.userForm.patchValue({
+            ...user,
+            role: Role[user.role],
+          });
+        });
     }
   }
 
@@ -52,13 +53,16 @@ export class UserComponent implements OnInit {
       role: Role[this.userForm.value.role],
       id: this.userId,
     };
+    console.log(user);
     this.http
       .updateUser(user)
       .pipe(tap(console.log), first())
       .subscribe((el) => console.log(el, 'subscribe submit'));
   }
+
   resetValues() {
     this.modal.dismiss('cancel click');
   }
-  handleFileInput(event) {}
+
+  handleFileInput() {}
 }

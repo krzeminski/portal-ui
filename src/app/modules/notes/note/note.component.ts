@@ -47,7 +47,7 @@ export class NoteComponent implements OnInit {
     console.log(this.noteForm.value);
     const note = {
       ...this.noteForm.value,
-      authorEmail: this.getCurrentUserMail(),
+      // authorEmail: this.getCurrentUserMail(),
     };
     if (this.noteId) {
       this.http
@@ -72,10 +72,10 @@ export class NoteComponent implements OnInit {
 
   getCurrentUserMail(): string {
     let userMail;
-    this.account.user$
+    this.account?.user$
       .pipe(first())
       .subscribe((user) => (userMail = user.email));
 
-    return userMail;
+    return userMail ?? '';
   }
 }

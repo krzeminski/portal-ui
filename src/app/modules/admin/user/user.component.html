@@ -1,4 +1,4 @@
-<form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+<form *ngIf="user" [formGroup]="userForm" (ngSubmit)="onSubmit()">
   <div class="modal-header">
     <h4 class="modal-title" id="modal-title">{{ user.username }}</h4>
     <button
@@ -18,7 +18,7 @@
           type="file"
           id="file"
           class="form-control"
-          (change)="handleFileInput($event)"
+          (change)="handleFileInput()"
         />
       </div>
     </div>
@@ -89,13 +89,10 @@
       <p *ngIf="!user.awards.length">Brak</p>
     </div>
   </div>
-    <div class="modal-footer">
-      <button
-        class="btn btn-warning text-white p-1 mx-2"
-        (click)="resetValues()"
-      >
-        Resetuj
-      </button>
-      <button class="btn btn-success p-1" type="submit">Zatwierdź</button>
-    </div>
+  <div class="modal-footer">
+    <button class="btn btn-warning text-white p-1 mx-2" (click)="resetValues()">
+      Resetuj
+    </button>
+    <button class="btn btn-success p-1" type="submit">Zatwierdź</button>
+  </div>
 </form>

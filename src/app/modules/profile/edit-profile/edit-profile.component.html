@@ -55,34 +55,44 @@
         />
       </div>
       <div class="mb-3">
-        <h6>Stare Hasło:</h6>
-        <input
-          formControlName="oldPassword"
-          type="password"
-          class="form-control"
-          placeholder="Wpisz stare hasło"
-          aria-label="Stare hasło"
-        />
-      </div>
-      <div class="mb-3">
-        <h6>Nowe hasło:</h6>
+        <h6>Wprowadź Hasło:</h6>
         <input
           formControlName="password"
           type="password"
           class="form-control"
-          placeholder="Wpisz nowe hasło"
-          aria-label="Nowe hasło"
+          placeholder="Wpisz obecne hasło"
+          aria-label="Stare hasło"
         />
       </div>
-      <div class="mb-3">
-        <h6>Potwierdź hasło:</h6>
-        <input
-          formControlName="repeatedPassword"
-          type="password"
-          class="form-control"
-          placeholder="Potwierdź hasło"
-          aria-label="Potwierdź hasło"
-        />
+      <a
+        *ngIf="!changePassword"
+        class="text-black-50 btn btn-link p-0"
+        tabindex="-1"
+        (click)="changePassword = true"
+      >
+        Zmień hasło
+      </a>
+      <div *ngIf="changePassword">
+        <div class="mb-3">
+          <h6>Nowe hasło:</h6>
+          <input
+            formControlName="newPassword"
+            type="password"
+            class="form-control"
+            placeholder="Wpisz nowe hasło"
+            aria-label="Nowe hasło"
+          />
+        </div>
+        <div class="mb-3">
+          <h6>Potwierdź hasło:</h6>
+          <input
+            formControlName="repeatedPassword"
+            type="password"
+            class="form-control"
+            placeholder="Potwierdź hasło"
+            aria-label="Potwierdź hasło"
+          />
+        </div>
       </div>
       <div class="d-flex justify-content-between mt-5">
         <button class="btn btn-success" tabindex="-1" type="submit">
