@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { User } from '../../../shared/interfaces/user.interface';
 import { FormBuilder } from '@angular/forms';
-import { AccountService } from '../../../core/services/account.service';
 import { first, tap } from 'rxjs/operators';
 import { HttpService } from '../../../shared/services/http.service';
+import {AuthService} from "../../../core/services/auth.service";
 
 @Component({
   selector: 'app-edit-profile',
@@ -17,11 +17,11 @@ export class EditProfileComponent {
   fileToUpload: File | null = null;
 
   constructor(
-    private account: AccountService,
+    private auth: AuthService,
     private http: HttpService,
     private formBuilder: FormBuilder
   ) {
-    this.account.user$.pipe(first()).subscribe((user) => {
+    this.http.getMe().subscribe((user) => {
       this.user = user;
 
       this.userForm = this.formBuilder.group({
@@ -31,7 +31,7 @@ export class EditProfileComponent {
         email: this.user.email,
         password: '',
         newPassword: '',
-        repeatedPassword: '',
+        confirm: '',
       });
     });
   }
@@ -44,7 +44,10 @@ export class EditProfileComponent {
     delete user.repeatedPassword;
     if (!user.newPassword) {
       delete user.newPassword;
+      delete user.password;
+      delete user.confirm;
     }
+    console.log(user);
     this.http
       .updateUser(user)
       .pipe(tap(console.log), first())

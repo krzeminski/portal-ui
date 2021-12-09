@@ -1,28 +1,36 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { User } from '../interfaces/user.interface';
+import { User, UserRegistration } from '../interfaces/user.interface';
 import { HttpClient } from '@angular/common/http';
 import { Note } from '../interfaces/note.interface';
 import { catchError, map, tap } from 'rxjs/operators';
 import { ConfigService } from '../../core/config/config.service';
-import {Credentials} from "../../core/services/auth.service";
+import { environment } from '../../../environments/environment';
+import { Credentials } from '../interfaces/credentials.interface';
+import { JwtToken } from '../interfaces/jwt-token.interface';
+import {Paging} from "../interfaces/paging.interface";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class HttpService {
-  apiUrl = 'http://localhost:8081';
+  apiUrl = environment.apiUrl;
+
   constructor(private http: HttpClient, private config: ConfigService) {}
 
   usersMap: Subject<User> = new Subject<User>();
 
-  login(credentials: Credentials) {
-    return this.http.post<User>(`${this.apiUrl}/users/authenticate`, credentials);
+  getMe() {
+    return this.http.get<User>(this.apiUrl + '/me');
   }
 
-  register(user: User) {
-    // return this.http.post(`${this.apiUrl}/users/register`, user);
-    return this.addUser(user);
+  login(credentials: Credentials) {
+    return this.http.post<JwtToken>(`${this.apiUrl}/authenticate`, credentials);
+  }
+
+  register(user: UserRegistration) {
+    return this.http.post(`${this.apiUrl}/registration`, user);
+    // return this.addUser(user);
   }
 
   getUsers(): Observable<User[]> {
@@ -32,36 +40,24 @@ export class HttpService {
     );
   }
 
-  getUser(id?: string): Observable<User> {
-    return this.http.get<User>(this.apiUrl + `/users/${id}`).pipe(
-      map((user: User) => {
-        return { id: id, ...user };
-      })
-    );
+  getUser(id: string): Observable<User> {
+    return this.http.get<User>(this.apiUrl + `/users/${id}`).pipe(map((user: User) => user));
   }
 
   addUser(user: User): Observable<User> {
-    return this.http
-      .post<User>(this.apiUrl + `/users`, user)
-      .pipe(catchError(this.config.handleHttpError));
+    return this.http.post<User>(this.apiUrl + `/users`, user).pipe(catchError(this.config.handleHttpError));
   }
 
   updateUser(user: User): Observable<User> {
-    return this.http
-      .put<User>(this.apiUrl + `/users/${user.id}`, user)
-      .pipe(catchError(this.config.handleHttpError));
+    return this.http.put<User>(this.apiUrl + `/users`, user).pipe(catchError(this.config.handleHttpError));
   }
 
   deleteUser(id: String | Number) {
-    return this.http
-      .delete<User>(`${this.apiUrl}/users/${id}`)
-      .pipe(catchError(this.config.handleHttpError));
+    return this.http.delete<User>(`${this.apiUrl}/users/${id}`).pipe(catchError(this.config.handleHttpError));
   }
 
   getNotes(): Observable<Note[]> {
-    return this.http
-      .get<Paging<Note>>(this.apiUrl + `/notes`)
-      .pipe(map((page) => page.content));
+    return this.http.get<Paging<Note>>(this.apiUrl + `/notes`).pipe(map((page) => page.content));
   }
 
   getNote(id?: string): Observable<Note> {
@@ -74,23 +70,17 @@ export class HttpService {
 
   postNote(note: Note): Observable<Note> {
     const url = this.apiUrl + `/notes`;
-    return this.http
-      .post<Note>(url, note)
-      .pipe(catchError(this.config.handleHttpError));
+    return this.http.post<Note>(url, note).pipe(catchError(this.config.handleHttpError));
   }
 
   updateNote(note: Note) {
     const url = `${this.apiUrl}/notes/${note.id}`;
-    return this.http
-      .put<Note>(url, note)
-      .pipe(catchError(this.config.handleHttpError));
+    return this.http.put<Note>(url, note).pipe(catchError(this.config.handleHttpError));
   }
 
   deleteNote(noteId: String | Number) {
     const url = `${this.apiUrl}/notes/${noteId}`;
-    return this.http
-      .delete<Note>(url)
-      .pipe(catchError(this.config.handleHttpError));
+    return this.http.delete<Note>(url).pipe(catchError(this.config.handleHttpError));
   }
 
   postFile(fileToUpload: File): Observable<any> {
@@ -101,32 +91,3 @@ export class HttpService {
   }
 }
 
-export interface Paging<T> {
-  content: T[];
-  first: boolean;
-  last: boolean;
-  number: number;
-  numberOfElements: number;
-  pageable: Pageable;
-  size: number;
-  sort: {
-    empty: boolean;
-    sorted: boolean;
-    unsorted: boolean;
-  };
-  totalPages: number;
-  totalElements: number;
-}
-
-export interface Pageable {
-  sort: {
-    unsorted: boolean;
-    sorted: boolean;
-    empty: boolean;
-  };
-  pageNumber: number;
-  pageSize: number;
-  offset: number;
-  paged: boolean;
-  unpaged?: boolean;
-}

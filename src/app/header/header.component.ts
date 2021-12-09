@@ -1,24 +1,22 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AccountService } from '../core/services/account.service';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { User } from '../shared/interfaces/user.interface';
+import { AuthService } from '../core/services/auth.service';
 import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss'],
+  styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnDestroy, OnInit {
-  user: User;
+  user$: Observable<User>;
   private _destroy$ = new Subject<void>();
 
-  constructor(private readonly account: AccountService) {}
+  constructor(private readonly auth: AuthService) {}
 
   ngOnInit() {
-    this.account.user$
-      .pipe(takeUntil(this._destroy$))
-      .subscribe((user) => (this.user = user));
+    this.user$ = this.auth.user$.pipe(takeUntil(this._destroy$));
   }
 
   ngOnDestroy(): void {
@@ -27,6 +25,6 @@ export class HeaderComponent implements OnDestroy, OnInit {
   }
 
   logout() {
-    this.account.logout();
+    this.auth.logout();
   }
 }

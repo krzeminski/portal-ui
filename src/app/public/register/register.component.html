@@ -80,7 +80,7 @@
     <div class="col-md-6 mb-3">
       <label for="validationServer05" class="form-label">Powtórz Hasło</label>
       <input
-        formControlName="repeatedPassword"
+        formControlName="confirmPassword"
         type="text"
         class="form-control"
         id="validationServer06"
@@ -119,6 +119,9 @@
     </div>
     <div class="col-3 d-flex align-items-center justify-content-end">
       <button class="btn btn-primary" type="submit">Zarejestruj się</button>
+    </div>
+    <div class="text-danger" *ngIf="errors">
+      <div *ngFor="let error of errors"> {{error}}</div>
     </div>
   </form>
 </div>

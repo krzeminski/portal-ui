@@ -5,7 +5,7 @@ import { Note } from '../../../shared/interfaces/note.interface';
 import { note as noteInit } from '../../../shared/mocks/NoteMock';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { first, tap } from 'rxjs/operators';
-import { AccountService } from '../../../core/services/account.service';
+import {AuthService} from "../../../core/services/auth.service";
 
 @Component({
   selector: 'app-note',
@@ -19,7 +19,7 @@ export class NoteComponent implements OnInit {
   constructor(
     private http: HttpService,
     private formBuilder: FormBuilder,
-    private account: AccountService,
+    private auth: AuthService,
     public modal: NgbActiveModal
   ) {
     this.noteForm = this.formBuilder.group({
@@ -72,7 +72,7 @@ export class NoteComponent implements OnInit {
 
   getCurrentUserMail(): string {
     let userMail;
-    this.account?.user$
+    this.auth.user$
       .pipe(first())
       .subscribe((user) => (userMail = user.email));
 

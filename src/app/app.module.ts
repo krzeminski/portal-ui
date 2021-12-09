@@ -12,11 +12,11 @@ import { PageNotFoundComponent } from './public/error-pages/page-not-found/page-
 import { AccessDeniedComponent } from './public/error-pages/access-denied/access-denied.component';
 import { NotAuthorizedComponent } from './public/error-pages/not-authorized/not-authorized.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
-import { ModalComponent } from './shared/components/modal/modal.component';
-import {SharedModule} from "./shared/shared.module";
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { SharedModule } from './shared/shared.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -28,7 +28,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     ResetComponent,
     PageNotFoundComponent,
     AccessDeniedComponent,
-    NotAuthorizedComponent,
+    NotAuthorizedComponent
   ],
   imports: [
     BrowserModule,
@@ -39,7 +39,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     BrowserAnimationsModule,
     NgbModule
   ],
-  providers: [],
-  bootstrap: [AppComponent],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
+  bootstrap: [AppComponent]
 })
 export class AppModule {}

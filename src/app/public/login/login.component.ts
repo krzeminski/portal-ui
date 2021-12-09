@@ -1,32 +1,26 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { AccountService } from '../../core/services/account.service';
-import { first } from 'rxjs/operators';
+import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
+  styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
   credentialsForm;
 
-  constructor(
-    private account: AccountService,
-    private formBuilder: FormBuilder,
-
-  ) {
+  constructor(private auth: AuthService, private formBuilder: FormBuilder) {
     this.credentialsForm = this.formBuilder.group({
       email: '',
-      password: '',
+      password: ''
     });
   }
 
   ngOnInit(): void {}
 
   onSubmit(): void {
-    this.account.login(this.credentialsForm.value).pipe(first()).subscribe();
+    this.auth.login(this.credentialsForm.value);
     this.credentialsForm.reset();
-
   }
 }
