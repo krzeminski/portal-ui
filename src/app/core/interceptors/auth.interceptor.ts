@@ -23,8 +23,10 @@ export class AuthInterceptor implements HttpInterceptor {
     const httpRequest = request.clone({
       setHeaders: {
         'Content-Type': 'application/json',
+        'Cache-Control': 'no-cache, no-store, max-age=0, must-revalidate',
         Authorization: `Bearer ${token}`
-      }
+      },
+      withCredentials: true
     });
     return next.handle(httpRequest).pipe(
       tap(

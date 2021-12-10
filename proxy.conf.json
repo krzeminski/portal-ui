@@ -1,6 +1,6 @@
 {
     "/api/*": {
-        "target":"localhost:8081/api",
+        "target":"https://portal.com:8443/api",
         "secure": false,
         "changeOrigin": false,
         "logLevel": "debug"

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { Observable } from 'rxjs';
 import { User, UserRegistration } from '../interfaces/user.interface';
 import { HttpClient } from '@angular/common/http';
 import { Note } from '../interfaces/note.interface';
@@ -8,17 +8,14 @@ import { ConfigService } from '../../core/config/config.service';
 import { environment } from '../../../environments/environment';
 import { Credentials } from '../interfaces/credentials.interface';
 import { JwtToken } from '../interfaces/jwt-token.interface';
-import {Paging} from "../interfaces/paging.interface";
+import { Paging } from '../interfaces/paging.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HttpService {
-  apiUrl = environment.apiUrl;
-
+  private apiUrl = environment.apiUrl;
   constructor(private http: HttpClient, private config: ConfigService) {}
-
-  usersMap: Subject<User> = new Subject<User>();
 
   getMe() {
     return this.http.get<User>(this.apiUrl + '/me');
@@ -30,7 +27,6 @@ export class HttpService {
 
   register(user: UserRegistration) {
     return this.http.post(`${this.apiUrl}/registration`, user);
-    // return this.addUser(user);
   }
 
   getUsers(): Observable<User[]> {
@@ -84,10 +80,8 @@ export class HttpService {
   }
 
   postFile(fileToUpload: File): Observable<any> {
-    const endpoint = 'your-destination-url';
     const formData: FormData = new FormData();
     formData.append('fileKey', fileToUpload, fileToUpload.name);
-    return this.http.post(endpoint, formData);
+    return this.http.post(this.apiUrl + '/api/user/file', formData);
   }
 }
-

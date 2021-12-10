@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'https://localhost:8443/api'
+  // apiUrl: 'https://localhost:8443/api'
+  apiUrl: 'https://portal.com:8443/api'
 };
 
 /*
