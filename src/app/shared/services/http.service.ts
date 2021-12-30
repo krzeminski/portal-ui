@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { User, UserRegistration } from '../interfaces/user.interface';
 import { HttpClient } from '@angular/common/http';
 import { Note } from '../interfaces/note.interface';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { ConfigService } from '../../core/config/config.service';
 import { environment } from '../../../environments/environment';
 import { Credentials } from '../interfaces/credentials.interface';
@@ -30,10 +30,7 @@ export class HttpService {
   }
 
   getUsers(): Observable<User[]> {
-    return this.http.get<Paging<User>>(this.apiUrl + `/users`).pipe(
-      map((page) => page.content),
-      tap(console.log)
-    );
+    return this.http.get<Paging<User>>(this.apiUrl + `/users`).pipe(map((page) => page.content));
   }
 
   getUser(id: string): Observable<User> {

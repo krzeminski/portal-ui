@@ -1,27 +1,22 @@
 <form *ngIf="user" [formGroup]="userForm" (ngSubmit)="onSubmit()">
   <div class="modal-header">
     <h4 class="modal-title" id="modal-title">{{ user.username }}</h4>
-    <button
-      type="button"
-      class="close"
-      aria-describedby="modal-title"
-      (click)="modal.dismiss('Cross click')"
-    >
+    <button type="button" class="close" aria-describedby="modal-title" (click)="modal.dismiss('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
-    <div class="mb-3">
-      <div class="form-group">
-        <h6>Zdjęcie profilowe:</h6>
-        <input
-          type="file"
-          id="file"
-          class="form-control"
-          (change)="handleFileInput()"
-        />
-      </div>
-    </div>
+    <!--    <div class="mb-3">-->
+    <!--      <div class="form-group">-->
+    <!--        <h6>Zdjęcie profilowe:</h6>-->
+    <!--        <input-->
+    <!--          type="file"-->
+    <!--          id="file"-->
+    <!--          class="form-control"-->
+    <!--          (change)="handleFileInput()"-->
+    <!--        />-->
+    <!--      </div>-->
+    <!--    </div>-->
     <div class="mb-3">
       <h6>Nazwa użytkownika:</h6>
       <input
@@ -31,6 +26,9 @@
         placeholder="{{ user.username }}"
         aria-label="Nazwa użytkownika"
       />
+      <div *ngIf="username.invalid && (username.dirty || username.touched)" class="alert alert-danger">
+        <div *ngIf="username.errors?.['required']">Nazwa użytkownika jest wymagana.</div>
+      </div>
     </div>
     <div class="mb-3">
       <h6>Imię:</h6>
@@ -41,6 +39,9 @@
         placeholder="{{ user.firstName }}"
         aria-label="Imię"
       />
+      <div *ngIf="firstName.invalid && (firstName.dirty || firstName.touched)" class="alert alert-danger">
+        <div *ngIf="firstName.errors?.['required']">Imię jest wymagane.</div>
+      </div>
     </div>
     <div class="mb-3">
       <h6>Nazwisko:</h6>
@@ -51,6 +52,9 @@
         placeholder="{{ user.lastName }}"
         aria-label="Nazwisko"
       />
+      <div *ngIf="lastName.invalid && (lastName.dirty || lastName.touched)" class="alert alert-danger">
+        <div *ngIf="lastName.errors?.['required']">Nazwisko jest wymagane.</div>
+      </div>
     </div>
     <div class="mb-3">
       <h6>Email:</h6>
@@ -63,6 +67,10 @@
         placeholder="{{ user.email }}"
         aria-label="Email"
       />
+      <div *ngIf="email.invalid && (email.dirty || email.touched)" class="alert alert-danger">
+        <div *ngIf="email.errors?.['required']">Email jest wymagany</div>
+        <div *ngIf="email.errors?.['email']">Podaj poprawny adress email</div>
+      </div>
     </div>
     <div class="mb-3">
       <h6>Rola:</h6>
@@ -90,9 +98,7 @@
     </div>
   </div>
   <div class="modal-footer">
-    <button class="btn btn-warning text-white p-1 mx-2" (click)="resetValues()">
-      Resetuj
-    </button>
+    <button class="btn btn-warning text-white p-1 mx-2" type="reset" (click)="resetValues()">Resetuj</button>
     <button class="btn btn-success p-1" type="submit">Zatwierdź</button>
   </div>
 </form>

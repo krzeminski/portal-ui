@@ -1,15 +1,16 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { HttpService } from '../../../shared/services/http.service';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { User } from '../../../shared/interfaces/user.interface';
 import { Role } from '../../../shared/enums/role.enum';
-import { first, tap } from 'rxjs/operators';
+import { first } from 'rxjs/operators';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
-  styleUrls: ['./user.component.scss'],
+  styleUrls: ['./user.component.scss']
 })
 export class UserComponent implements OnInit {
   @Input() userId: string;
@@ -20,14 +21,15 @@ export class UserComponent implements OnInit {
   constructor(
     private http: HttpService,
     private formBuilder: FormBuilder,
-    public modal: NgbActiveModal
+    public modal: NgbActiveModal,
+    private toastr: ToastrService
   ) {
     this.userForm = this.formBuilder.group({
-      firstName: '',
-      lastName: '',
-      username: '',
-      email: '',
-      role: '',
+      firstName: ['', [Validators.required]],
+      lastName: ['', [Validators.required]],
+      username: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
+      role: ''
     });
   }
 
@@ -40,29 +42,55 @@ export class UserComponent implements OnInit {
           this.user = user;
           this.userForm.patchValue({
             ...user,
-            role: Role[user.role],
+            role: Role[user.role]
           });
         });
     }
   }
 
   onSubmit() {
-    this.modal.close('Ok click');
-    const user = {
-      ...this.userForm.value,
-      role: Role[this.userForm.value.role],
-      id: this.userId,
-    };
-    console.log(user);
-    this.http
-      .updateUser(user)
-      .pipe(tap(console.log), first())
-      .subscribe((el) => console.log(el, 'subscribe submit'));
+    if (this.userForm.valid) {
+      const user = {
+        ...this.userForm.value,
+        role: Role[this.userForm.value.role],
+        id: this.userId
+      };
+      this.http
+        .updateUser(user)
+        .pipe(first())
+        .subscribe(
+          () => {
+            this.modal.close();
+            this.toastr.success(`Zaaktualizowano użytkownika ${user.username}`, 'Sukces', {
+              positionClass: 'toast-bottom-right'
+            });
+          },
+          (err) => {
+            this.toastr.error(`Coś poszło nie tak ${err}`, 'Błąd', { positionClass: 'toast-bottom-right' });
+          }
+        );
+    }
   }
 
   resetValues() {
-    this.modal.dismiss('cancel click');
+    this.userForm.patchValue({
+      ...this.user,
+      role: Role[this.user.role]
+    });
   }
 
-  handleFileInput() {}
+  get firstName() {
+    return this.userForm.get('firstName');
+  }
+  get lastName() {
+    return this.userForm.get('lastName');
+  }
+  get username() {
+    return this.userForm.get('username');
+  }
+  get email() {
+    return this.userForm.get('email');
+  }
+
+  // handleFileInput() {}
 }

@@ -17,7 +17,8 @@ import { SharedModule } from './shared/shared.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
-import {HeadersInterceptor} from "./core/interceptors/headers.interceptor";
+import { HeadersInterceptor } from './core/interceptors/headers.interceptor';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -38,9 +39,13 @@ import {HeadersInterceptor} from "./core/interceptors/headers.interceptor";
     ReactiveFormsModule,
     SharedModule,
     BrowserAnimationsModule,
-    NgbModule
+    NgbModule,
+    ToastrModule.forRoot()
   ],
-  providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }, { provide: HTTP_INTERCEPTORS, useClass: HeadersInterceptor, multi: true }],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: HeadersInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

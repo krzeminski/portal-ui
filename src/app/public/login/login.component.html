@@ -11,6 +11,11 @@
           required
           formControlName="email"
         />
+
+        <div *ngIf="email.invalid && (email.dirty || email.touched)" class="alert alert-danger">
+          <div *ngIf="email.errors?.['required']">Email jest wymagany</div>
+          <div *ngIf="email.errors?.['email']">Podaj poprawny adress email</div>
+        </div>
       </div>
       <div class="mb-3">
         <label for="exampleInputPassword1" class="form-label">Hasło</label>
@@ -21,14 +26,13 @@
           required
           formControlName="password"
         />
-      </div>
-      <div class="mb-3 form-check">
-        <input type="checkbox" class="form-check-input" id="exampleCheck1" />
-        <label class="form-check-label" for="exampleCheck1">Captcha</label>
+        <div *ngIf="password.invalid && (password.touched)" class="alert alert-danger">
+          <div *ngIf="password.errors?.['required']">Hasło jest wymagane.</div>
+        </div>
       </div>
       <div class="d-flex justify-content-between">
         <div class="py-3">
-          <a routerLink="/reset" class="text-danger">Zapomniałem hasła</a>
+<!--          <a routerLink="/reset" class="text-danger">Zapomniałem hasła</a>-->
           <br />
           <a routerLink="/register" class="text-secondary">Zarejestruj się</a>
         </div>

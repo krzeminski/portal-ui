@@ -4,13 +4,14 @@ import { FormBuilder } from '@angular/forms';
 import { Note } from '../../../shared/interfaces/note.interface';
 import { note as noteInit } from '../../../shared/mocks/NoteMock';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { first, tap } from 'rxjs/operators';
-import {AuthService} from "../../../core/services/auth.service";
+import { first } from 'rxjs/operators';
+import { AuthService } from '../../../core/services/auth.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-note',
   templateUrl: './note.component.html',
-  styleUrls: ['./note.component.scss'],
+  styleUrls: ['./note.component.scss']
 })
 export class NoteComponent implements OnInit {
   @Input() noteId?: string;
@@ -20,45 +21,61 @@ export class NoteComponent implements OnInit {
     private http: HttpService,
     private formBuilder: FormBuilder,
     private auth: AuthService,
-    public modal: NgbActiveModal
+    public modal: NgbActiveModal,
+    private toastr: ToastrService
   ) {
     this.noteForm = this.formBuilder.group({
       title: this.note.title,
       text: this.note.text,
-      value: this.note.value,
+      value: this.note.value
     });
   }
 
   ngOnInit(): void {
-    console.log(this.noteId);
     if (this.noteId) {
       this.http.getNote(this.noteId).subscribe((note) => {
         this.note = note;
         this.noteForm.patchValue({
           title: this.note.title,
           text: this.note.text,
-          value: this.note.value,
+          value: this.note.value
         });
       });
     }
   }
 
   onSubmit() {
-    console.log(this.noteForm.value);
     const note = {
-      ...this.noteForm.value,
-      // authorEmail: this.getCurrentUserMail(),
+      ...this.noteForm.value
     };
     if (this.noteId) {
       this.http
         .updateNote({ ...note, id: this.noteId })
-        .pipe(tap(console.log), first())
-        .subscribe((el) => console.log(el, 'subscribe submit'));
+        .pipe(first())
+        .subscribe(
+          () => {
+            this.toastr.success(`Zaaktualizowano notatkę '${note.title}'`, 'Sukces', {
+              positionClass: 'toast-bottom-right'
+            });
+            this.modal.close();
+          },
+          (err) => {
+            this.toastr.error(`Coś poszło nie tak ${err}`, 'Błąd', { positionClass: 'toast-bottom-right' });
+          }
+        );
     } else {
       this.http
         .postNote(note)
-        .pipe(tap(console.log), first())
-        .subscribe((el) => console.log(el, 'subscribe submit'));
+        .pipe(first())
+        .subscribe(
+          () => {
+            this.toastr.success(`Utworzono notatkę '${note.title}'`, 'Sukces', { positionClass: 'toast-bottom-right' });
+            this.modal.close();
+          },
+          (err) => {
+            this.toastr.error(`Coś poszło nie tak ${err}`, 'Błąd', { positionClass: 'toast-bottom-right' });
+          }
+        );
     }
   }
 
@@ -66,16 +83,7 @@ export class NoteComponent implements OnInit {
     this.noteForm.patchValue({
       title: this.note.title,
       text: this.note.text,
-      value: this.note.value,
+      value: this.note.value
     });
-  }
-
-  getCurrentUserMail(): string {
-    let userMail;
-    this.auth.user$
-      .pipe(first())
-      .subscribe((user) => (userMail = user.email));
-
-    return userMail ?? '';
   }
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '../../core/services/auth.service';
 
 @Component({
@@ -12,15 +12,24 @@ export class LoginComponent implements OnInit {
 
   constructor(private auth: AuthService, private formBuilder: FormBuilder) {
     this.credentialsForm = this.formBuilder.group({
-      email: '',
-      password: ''
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', Validators.required]
     });
   }
 
   ngOnInit(): void {}
 
   onSubmit(): void {
-    this.auth.login(this.credentialsForm.value);
+    if (this.credentialsForm.valid) {
+      this.auth.login(this.credentialsForm.value);
+    }
     this.credentialsForm.reset();
+  }
+
+  get email() {
+    return this.credentialsForm.get('email');
+  }
+  get password() {
+    return this.credentialsForm.get('email');
   }
 }

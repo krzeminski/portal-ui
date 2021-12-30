@@ -1,17 +1,17 @@
 <div class="container my-5">
   <div class="card w-50 mx-auto p-4">
-    <form class="p-5" [formGroup]="userForm" (ngSubmit)="onSubmit()">
-      <div class="mb-3">
-        <div class="form-group">
-          <h6>Zdjęcie profilowe:</h6>
-          <input
-            type="file"
-            id="file"
-            class="form-control"
-            (change)="handleFileInput($event)"
-          />
-        </div>
-      </div>
+    <form class="p-5" *ngIf="user" [formGroup]="userForm" (ngSubmit)="onSubmit()">
+      <!--      <div class="mb-3">-->
+      <!--        <div class="form-group">-->
+      <!--          <h6>Zdjęcie profilowe:</h6>-->
+      <!--          <input-->
+      <!--            type="file"-->
+      <!--            id="file"-->
+      <!--            class="form-control"-->
+      <!--            (change)="handleFileInput($event)"-->
+      <!--          />-->
+      <!--        </div>-->
+      <!--      </div>-->
       <div class="mb-3">
         <h6>Nazwa użytkownika:</h6>
         <input
@@ -21,6 +21,9 @@
           placeholder="{{ user.username }}"
           aria-label="Nazwa użytkownika"
         />
+        <div *ngIf="username.invalid && (username.dirty || username.touched)" class="alert alert-danger">
+          <div *ngIf="username.errors?.['required']">Nazwa użytkownika jest wymagana.</div>
+        </div>
       </div>
       <div class="mb-3">
         <h6>Imię:</h6>
@@ -31,6 +34,9 @@
           placeholder="{{ user.firstName }}"
           aria-label="Imię"
         />
+        <div *ngIf="firstName.invalid && (firstName.dirty || firstName.touched)" class="alert alert-danger">
+          <div *ngIf="firstName.errors?.['required']">Imię jest wymagane.</div>
+        </div>
       </div>
       <div class="mb-3">
         <h6>Nazwisko:</h6>
@@ -41,6 +47,9 @@
           placeholder="{{ user.lastName }}"
           aria-label="Nazwisko"
         />
+        <div *ngIf="lastName.invalid && (lastName.dirty || lastName.touched)" class="alert alert-danger">
+          <div *ngIf="lastName.errors?.['required']">Nazwisko jest wymagane.</div>
+        </div>
       </div>
       <div class="mb-3">
         <h6>Email:</h6>
@@ -53,51 +62,53 @@
           placeholder="{{ user.email }}"
           aria-label="Email"
         />
-      </div>
-      <div class="mb-3">
-        <h6>Wprowadź Hasło:</h6>
-        <input
-          formControlName="password"
-          type="password"
-          class="form-control"
-          placeholder="Wpisz obecne hasło"
-          aria-label="Stare hasło"
-        />
-      </div>
-      <a
-        *ngIf="!changePassword"
-        class="text-black-50 btn btn-link p-0"
-        tabindex="-1"
-        (click)="changePassword = true"
-      >
-        Zmień hasło
-      </a>
-      <div *ngIf="changePassword">
-        <div class="mb-3">
-          <h6>Nowe hasło:</h6>
-          <input
-            formControlName="newPassword"
-            type="password"
-            class="form-control"
-            placeholder="Wpisz nowe hasło"
-            aria-label="Nowe hasło"
-          />
-        </div>
-        <div class="mb-3">
-          <h6>Potwierdź hasło:</h6>
-          <input
-            formControlName="repeatedPassword"
-            type="password"
-            class="form-control"
-            placeholder="Potwierdź hasło"
-            aria-label="Potwierdź hasło"
-          />
+        <div *ngIf="email.invalid && (email.dirty || email.touched)" class="alert alert-danger">
+          <div *ngIf="email.errors?.['required']">Email jest wymagany</div>
+          <div *ngIf="email.errors?.['email']">Podaj poprawny adress email</div>
         </div>
       </div>
+      <!--      <div class="mb-3">-->
+      <!--        <h6>Wprowadź Hasło:</h6>-->
+      <!--        <input-->
+      <!--          formControlName="password"-->
+      <!--          type="password"-->
+      <!--          class="form-control"-->
+      <!--          placeholder="Wpisz obecne hasło"-->
+      <!--          aria-label="Stare hasło"-->
+      <!--        />-->
+      <!--      </div>-->
+      <!--      <a-->
+      <!--        *ngIf="!changePassword"-->
+      <!--        class="text-black-50 btn btn-link p-0"-->
+      <!--        tabindex="-1"-->
+      <!--        (click)="changePassword = true"-->
+      <!--      >-->
+      <!--        Zmień hasło-->
+      <!--      </a>-->
+      <!--      <div *ngIf="changePassword">-->
+      <!--        <div class="mb-3">-->
+      <!--          <h6>Nowe hasło:</h6>-->
+      <!--          <input-->
+      <!--            formControlName="newPassword"-->
+      <!--            type="password"-->
+      <!--            class="form-control"-->
+      <!--            placeholder="Wpisz nowe hasło"-->
+      <!--            aria-label="Nowe hasło"-->
+      <!--          />-->
+      <!--        </div>-->
+      <!--        <div class="mb-3">-->
+      <!--          <h6>Potwierdź hasło:</h6>-->
+      <!--          <input-->
+      <!--            formControlName="repeatedPassword"-->
+      <!--            type="password"-->
+      <!--            class="form-control"-->
+      <!--            placeholder="Potwierdź hasło"-->
+      <!--            aria-label="Potwierdź hasło"-->
+      <!--          />-->
+      <!--        </div>-->
+      <!--      </div>-->
       <div class="d-flex justify-content-between mt-5">
-        <button class="btn btn-success" tabindex="-1" type="submit">
-          Zatwierdź
-        </button>
+        <button class="btn btn-success" tabindex="-1" type="submit">Zatwierdź</button>
         <a class="btn btn-danger" tabindex="-1" routerLink="/profile"> Wróć </a>
       </div>
     </form>

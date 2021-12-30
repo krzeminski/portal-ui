@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { HttpService } from '../../shared/services/http.service';
 import { TokenService } from './token.service';
 import { Credentials } from '../../shared/interfaces/credentials.interface';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,12 @@ export class AuthService {
   user$: Observable<User>;
   isLoggedIn$: Observable<boolean> = of(false);
 
-  constructor(private router: Router, private http: HttpService, private token: TokenService) {
+  constructor(
+    private router: Router,
+    private http: HttpService,
+    private token: TokenService,
+    private toastr: ToastrService
+  ) {
     this.user$ = this._subject.asObservable();
     this.getUserDetails();
 
@@ -39,11 +45,17 @@ export class AuthService {
   }
 
   login(credentials: Credentials) {
-    return this.http.login(credentials).subscribe((response) => {
-      this.token.saveToken(response.access_token);
-      this.getUserDetails();
-      this.router.navigate(['/']);
-    });
+    return this.http.login(credentials).subscribe(
+      (response) => {
+        this.token.saveToken(response.access_token);
+        this.getUserDetails();
+        this.toastr.success('Witaj', 'Poprawne logowanie', { positionClass: 'toast-bottom-right' });
+        this.router.navigate(['/']);
+      },
+      () => {
+        this.toastr.error('Nie poprawne dane, spróbuj ponownie', 'Nie udało się zalogować', { positionClass: 'toast-bottom-right' });
+      }
+    );
   }
 
   logout() {

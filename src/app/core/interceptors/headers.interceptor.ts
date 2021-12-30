@@ -8,7 +8,6 @@ export class HeadersInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     let token = this.getCSRFToken();
-    console.log(token);
     if (!!token && request.method !== 'GET' && request.method !== 'HEAD') {
       const requestToForward = request.clone({ setHeaders: { 'X-XSRF-TOKEN': token } });
       return next.handle(requestToForward);
